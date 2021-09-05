@@ -9,18 +9,17 @@ inputs:
   branch-name:
     description: "The branch to commit to."
     required: true
-    default: "main"
   image-folder:
     description: "Folder where images should be stored."
-    required: true
+    required: false
     default: "images/"
   video-folder:
     description: "Folder where videos should be stored."
-    required: true
+    required: false
     default: "videos/"
   misc-folder:
     description: "Folder where miscellaneous files (not images or videos) should be stored."
-    required: true
+    required: false
     default: "misc/"
   commit-msg:
     description: "The commit message whenever the files are committed."
