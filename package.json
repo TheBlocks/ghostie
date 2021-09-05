@@ -1,0 +1,26 @@
+{
+  "name": "ghostie",
+  "version": "1.0.0",
+  "description": "Host images and videos using GitHub Issues/Actions",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TheBlocks/ghostie.git"
+  },
+  "keywords": [
+    "github",
+    "actions",
+    "issues",
+    "ghostie",
+    "images",
+    "videos",
+    "hosting"
+  ],
+  "author": "Tangil J",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "@actions/core": "^1.5.0",
+    "@actions/github": "^5.0.0"
+  }
+}
