@@ -6499,46 +6499,35 @@ async function run() {
         fs.mkdirSync(videosFolder);
 
     // Regex matches any URL starting with http:// or https:// and ending with an extension
+    // We get the first matching URL, so only 1 URL is allowed per issue
     const regex = /https?:\/\/.*\.[a-zA-Z0-9]*/;
-    const lines = body.split("\r\n");
-    let filesDone = 1;
 
-    for (const line of lines) {
-        if (line === "")
-            continue;
+    const url = body.match(regex)[0];
+    const filenameUnsafe = `${issue.title}.${getExtension(url)}`;
+    const filename = sanitize(filenameUnsafe);
 
-        const url = line.match(regex)[0];
-        // If there's more than 1 file in an issue, number the ones after the first
-        let filenameUnsafe = "";
-        if (filesDone == 1)
-            filenameUnsafe = `${issue.title}.${getExtension(url)}`;
-        else
-            filenameUnsafe = `${issue.title}-${filesDone}.${getExtension(url)}`;
-        const filename = sanitize(filenameUnsafe);
-        filesDone++;
+    let folder = miscFolder;
+    if (isImage(filename))
+        folder = imagesFolder;
+    if (isVideo(filename))
+        folder = videosFolder;
+    const filePath = path.join(folder, filename);
 
-        let folder = miscFolder;
-        if (isImage(filename))
-            folder = imagesFolder;
-        if (isVideo(filename))
-            folder = videosFolder;
-        const filePath = path.join(folder, filename);
-
-        await download(url, filePath, () => {
-            const commitMsg = core.getInput("commit-msg");
-            const branchName = core.getInput("branch-name");
-            const ghActor = process.env.GITHUB_ACTOR;
-            const ghRepo = process.env.GITHUB_REPOSITORY;
-            const remote = `https://${ghActor}:${repoToken}@github.com/${ghRepo}.git`;
-            exec(
-                `git config --global user.email "action@github.com" && ` +
-                `git config --global user.name "GitHub Action" && ` +
-                `git add -A && ` +
-                `git commit -m "${commitMsg}" -a && ` +
-                `git push "${remote}" HEAD:${branchName}`
-            );
-        });
-    };
+    await download(url, filePath, () => {
+        const commitMsg = core.getInput("commit-msg");
+        const branchName = core.getInput("branch-name");
+        const ghActor = process.env.GITHUB_ACTOR;
+        const ghRepo = process.env.GITHUB_REPOSITORY;
+        const remote = `https://${ghActor}:${repoToken}@github.com/${ghRepo}.git`;
+        exec(
+            `git config --global user.email "action@github.com" && ` +
+            `git config --global user.name "GitHub Action" && ` +
+            `git add -A && ` +
+            `git commit -m "${commitMsg}" -a && ` +
+            `git push "${remote}" HEAD:${branchName}`
+        );
+        console.log("Committed to repo");
+    });
 }
 
 
