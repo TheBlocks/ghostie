@@ -6386,16 +6386,19 @@ async function run() {
         download(url, filePath);
     };
 
-    exec("git add -A");
 
     const commitMsg = core.getInput("commit-msg");
-    exec(`git commit -m "${commitMsg}" -a`);
-
     const branchName = core.getInput("branch-name");
     const ghActor = process.env.GITHUB_ACTOR;
     const ghRepo = process.env.GITHUB_REPOSITORY;
     const remote = `https://${ghActor}:${repoToken}@github.com/${ghRepo}.git`;
-    exec(`git push "${remote}" HEAD:${branchName}`);
+    exec(
+        `git config --global user.email "action@github.com" && ` +
+        `git config --global user.name "GitHub Action" && ` +
+        `git add -A && ` +
+        `git commit -m "${commitMsg}" -a && ` +
+        `git push "${remote}" HEAD:${branchName}`
+    );
 }
 
 
