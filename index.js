@@ -52,6 +52,10 @@ async function run() {
         download(url, filePath);
     };
 
+
+    exec(`git config --global user.email "action@github.com"`);
+    exec(`git config --global user.name "GitHub Action"`);
+
     exec("git add -A");
 
     const commitMsg = core.getInput("commit-msg");
