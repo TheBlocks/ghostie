@@ -1,0 +1,31 @@
+name: "Ghostie"
+description: "Host images and videos using GitHub Issues/Actions"
+
+inputs:
+  repo-token:
+    description: "GITHUB_TOKEN secret. You can use ${{ secrets.GITHUB_TOKEN }} as the value for this."
+    required: true
+  branch-name:
+    description: "The branch to commit to."
+    required: true
+    default: "main"
+  image-folder:
+    description: "Folder where images should be stored."
+    required: true
+    default: "images/"
+  video-folder:
+    description: "Folder where videos should be stored."
+    required: true
+    default: "videos/"
+  misc-folder:
+    description: "Folder where miscellaneous files (not images or videos) should be stored."
+    required: true
+    default: "misc/"
+  commit-msg:
+    description: "The commit message whenever the files are committed."
+    required: false
+    default: "Create new image/video files"
+
+runs:
+  using: "node12"
+  main: "index.js"
