@@ -6334,7 +6334,7 @@ var __webpack_exports__ = {};
 (() => {
 const child_process = __nccwpck_require__(129);
 const fs = __nccwpck_require__(747);
-const http = __nccwpck_require__(211);
+const https = __nccwpck_require__(211);
 const path = __nccwpck_require__(622);
 
 const core = __nccwpck_require__(21);
@@ -6383,7 +6383,7 @@ async function run() {
             folder = videosFolder;
         const filePath = path.join(folder, filename);
 
-        download(url, filePath);
+        await download(url, filePath);
     };
 
 
@@ -6410,12 +6410,14 @@ function getIssueNumber() {
     return issue.number;
 }
 
-function download(url, dest) {
-    var file = fs.createWriteStream(dest);
-    http.get(url, function (response) {
-        response.pipe(file);
-        file.on("finish", function () {
-            file.close();
+async function download(url, dest) {
+    return new Promise(() => {
+        var file = fs.createWriteStream(dest);
+        https.get(url, (response) => {
+            response.pipe(file);
+            file.on("finish", function () {
+                file.close();
+            });
         });
     });
 }

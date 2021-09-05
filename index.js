@@ -1,6 +1,6 @@
-const child_process = require('child_process');
+const child_process = require("child_process");
 const fs = require("fs");
-const http = require("https");
+const https = require("https");
 const path = require("path");
 
 const core = require("@actions/core");
@@ -49,7 +49,7 @@ async function run() {
             folder = videosFolder;
         const filePath = path.join(folder, filename);
 
-        download(url, filePath);
+        await download(url, filePath);
     };
 
 
@@ -76,12 +76,14 @@ function getIssueNumber() {
     return issue.number;
 }
 
-function download(url, dest) {
-    var file = fs.createWriteStream(dest);
-    http.get(url, function (response) {
-        response.pipe(file);
-        file.on("finish", function () {
-            file.close();
+async function download(url, dest) {
+    return new Promise(() => {
+        var file = fs.createWriteStream(dest);
+        https.get(url, (response) => {
+            response.pipe(file);
+            file.on("finish", function () {
+                file.close();
+            });
         });
     });
 }
