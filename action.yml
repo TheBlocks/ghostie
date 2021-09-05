@@ -3,7 +3,8 @@ description: "Host images and videos using GitHub Issues/Actions"
 
 inputs:
   repo-token:
-    description: "GITHUB_TOKEN secret. You can use ${{ secrets.GITHUB_TOKEN }} as the value for this."
+    description: "GITHUB_TOKEN secret. You can use secrets.GITHUB_TOKEN as the value for this. 
+    See https://docs.github.com/en/actions/reference/authentication-in-a-workflow#using-the-github_token-in-a-workflow for more info."
     required: true
   branch-name:
     description: "The branch to commit to."
