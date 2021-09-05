@@ -3,6 +3,8 @@ const fs = require("fs");
 const https = require("https");
 const path = require("path");
 
+const sanitize = require("sanitize-filename");
+
 const core = require("@actions/core");
 const github = require("@actions/github");
 
@@ -34,12 +36,21 @@ async function run() {
     // Regex matches any URL starting with http:// or https:// and ending with an extension
     const regex = /https?:\/\/.*\.[a-zA-Z0-9]*/;
     const lines = body.split("\r\n");
+    let filesDone = 1;
+
     for (const line of lines) {
         if (line === "")
             continue;
 
-        const url = line.match(regex)[2];
-        const filename = line.match(regex)[1] + "." + getExtension(url);
+        const url = line.match(regex)[0];
+        // If there's more than 1 file in an issue, number the ones after the first
+        let filenameUnsafe = "";
+        if (filesDone == 1)
+            filenameUnsafe = `${issue.title}.${getExtension(url)}`;
+        else
+            filenameUnsafe = `${issue.title}-${filesDone}.${getExtension(url)}`;
+        const filename = sanitize(filenameUnsafe);
+        filesDone++;
 
         let folder = miscFolder;
         if (isImage(filename))
