@@ -1,6 +1,6 @@
 {
   "name": "ghostie",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Host images and videos using GitHub Issues/Actions",
   "main": "dist/index.js",
   "scripts": {
