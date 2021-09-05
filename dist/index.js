@@ -6484,6 +6484,12 @@ async function run() {
         issue_number: issueNumber,
     });
 
+    const allowedUsers = core.getInput("allowed-users");
+    if (issue.author_association !== allowedUsers.toUpperCase()) {
+        console.log("User not allowed to upload content to repo.")
+        return;
+    }
+
     const body = issue.body;
     if (!body) {
         console.log(`No image or video found in body of issue #${issueNumber}.`);

@@ -26,6 +26,11 @@ inputs:
     description: "The commit message whenever the files are committed."
     required: false
     default: "Create new image/video file"
+  allowed-users:
+    description: "The users allowed to have their issue content get uploaded to the repo. Defaults to OWNER.
+    Allowed values are: OWNER, COLLABORATOR, CONTRIBUTOR, FIRST_TIMER, FIRST_TIME_CONTRIBUTOR, MANNEQUIN, MEMBER, NONE"
+    required: false
+    default: "OWNER"
 
 runs:
   using: "node12"
