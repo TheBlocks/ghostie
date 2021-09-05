@@ -6383,22 +6383,21 @@ async function run() {
             folder = videosFolder;
         const filePath = path.join(folder, filename);
 
-        await download(url, filePath);
+        await download(url, filePath, () => {
+            const commitMsg = core.getInput("commit-msg");
+            const branchName = core.getInput("branch-name");
+            const ghActor = process.env.GITHUB_ACTOR;
+            const ghRepo = process.env.GITHUB_REPOSITORY;
+            const remote = `https://${ghActor}:${repoToken}@github.com/${ghRepo}.git`;
+            exec(
+                `git config --global user.email "action@github.com" && ` +
+                `git config --global user.name "GitHub Action" && ` +
+                `git add -A && ` +
+                `git commit -m "${commitMsg}" -a && ` +
+                `git push "${remote}" HEAD:${branchName}`
+            );
+        });
     };
-
-
-    const commitMsg = core.getInput("commit-msg");
-    const branchName = core.getInput("branch-name");
-    const ghActor = process.env.GITHUB_ACTOR;
-    const ghRepo = process.env.GITHUB_REPOSITORY;
-    const remote = `https://${ghActor}:${repoToken}@github.com/${ghRepo}.git`;
-    exec(
-        `git config --global user.email "action@github.com" && ` +
-        `git config --global user.name "GitHub Action" && ` +
-        `git add -A && ` +
-        `git commit -m "${commitMsg}" -a && ` +
-        `git push "${remote}" HEAD:${branchName}`
-    );
 }
 
 
@@ -6410,14 +6409,14 @@ function getIssueNumber() {
     return issue.number;
 }
 
-async function download(url, dest) {
+async function download(url, dest, cb) {
     console.log(`Starting download from ${url}`);
     return new Promise(() => {
         var file = fs.createWriteStream(dest);
         https.get(url, (response) => {
             response.pipe(file);
             file.on("finish", () => {
-                file.close();
+                file.close(cb);
                 const fileSize = (fs.statSync(dest).size / 1024 / 1024).toFixed(2);
                 console.log(`Completed download, size: ${fileSize}MiB`);
             });
