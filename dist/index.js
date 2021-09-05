@@ -6411,12 +6411,15 @@ function getIssueNumber() {
 }
 
 async function download(url, dest) {
+    console.log(`Starting download from ${url}`);
     return new Promise(() => {
         var file = fs.createWriteStream(dest);
         https.get(url, (response) => {
             response.pipe(file);
-            file.on("finish", function () {
+            file.on("finish", () => {
                 file.close();
+                const fileSize = (fs.statSync(dest).size / 1024 / 1024).toFixed(2);
+                console.log(`Completed download, size: ${fileSize}MiB`);
             });
         });
     });
