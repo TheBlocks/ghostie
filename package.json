@@ -2,8 +2,10 @@
   "name": "ghostie",
   "version": "1.0.0",
   "description": "Host images and videos using GitHub Issues/Actions",
-  "main": "index.js",
-  "scripts": {},
+  "main": "dist/index.js",
+  "scripts": {
+      "build": "ncc build index.js --license licenses.txt"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/TheBlocks/ghostie.git"
