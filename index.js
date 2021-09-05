@@ -32,6 +32,8 @@ async function run() {
         fs.mkdirSync(imagesFolder);
     if (!fs.existsSync(videosFolder))
         fs.mkdirSync(videosFolder);
+    if (!fs.existsSync(miscFolder))
+        fs.mkdirSync(miscFolder);
 
     // Regex matches any URL starting with http:// or https:// and ending with an extension
     // We get the first matching URL, so only 1 URL is allowed per issue
