@@ -31,9 +31,8 @@ async function run() {
     if (!fs.existsSync(videosFolder))
         fs.mkdirSync(videosFolder);
 
-    // Expecting lines in this format:
-    // "![File name](URL to file, usually on user-images.githubusercontent.com)\r\n"
-    const regex = /!\[(.*)\]\((.*)\)/;
+    // Regex matches any URL starting with http:// or https:// and ending with an extension
+    const regex = /https?:\/\/.*\.[a-zA-Z0-9]*/;
     const lines = body.split("\r\n");
     for (const line of lines) {
         if (line === "")
