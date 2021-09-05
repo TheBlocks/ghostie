@@ -1,6 +1,6 @@
 {
   "name": "ghostie",
-  "version": "0.1.5",
+  "version": "1.0.0",
   "description": "Host content using GitHub Issues and Actions",
   "main": "index.js",
   "scripts": {
