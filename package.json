@@ -1,7 +1,7 @@
 {
   "name": "ghostie",
   "version": "0.1.5",
-  "description": "Host images and videos using GitHub Issues/Actions",
+  "description": "Host content using GitHub Issues and Actions",
   "main": "index.js",
   "scripts": {
     "build": "ncc build index.js --license licenses.txt"

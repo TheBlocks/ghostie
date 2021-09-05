@@ -1,5 +1,5 @@
 name: "Ghostie"
-description: "Host images and videos using GitHub Issues/Actions"
+description: "Host content using GitHub Issues and Actions"
 
 inputs:
   repo-token:
