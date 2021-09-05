@@ -25,7 +25,7 @@ inputs:
   commit-msg:
     description: "The commit message whenever the files are committed."
     required: false
-    default: "Create new image/video files"
+    default: "Create new image/video file"
 
 runs:
   using: "node12"
